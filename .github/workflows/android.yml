@@ -24,8 +24,7 @@ jobs:
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-home-cache-cleanup: true
-      env:
-        GRADLE_ACTION_SKIP_WRAPPER_VALIDATION: true
+        validate-wrappers: false
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
