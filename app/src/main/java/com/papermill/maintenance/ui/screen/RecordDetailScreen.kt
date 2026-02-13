@@ -276,10 +276,10 @@ fun RecordDetailScreen(
                 }
             }
             
-            if (!uiState.isNewRecord) {
+            if (!uiState.isNewRecord && uiState.updatedAt > 0) {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
                 Text(
-                    text = "${stringResource(R.string.time_label)}: ${dateFormat.format(Date(uiState.id))}",
+                    text = "${stringResource(R.string.time_label)}: ${dateFormat.format(Date(uiState.updatedAt))}",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )

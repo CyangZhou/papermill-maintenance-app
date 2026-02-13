@@ -17,6 +17,8 @@ data class RecordDetailUiState(
     val content: String = "",
     val equipmentName: String = "",
     val imagePaths: List<String> = emptyList(),
+    val createdAt: Long = 0L,
+    val updatedAt: Long = 0L,
     val isNewRecord: Boolean = true,
     val isSaving: Boolean = false,
     val saveComplete: Boolean = false
@@ -48,6 +50,8 @@ class RecordDetailViewModel(
                         } else {
                             emptyList()
                         },
+                        createdAt = record.createdAt,
+                        updatedAt = record.updatedAt,
                         isNewRecord = false
                     )
                 }
