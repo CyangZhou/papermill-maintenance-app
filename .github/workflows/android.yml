@@ -1,0 +1,70 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug --stacktrace --info
+      
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: app-debug
+        
+    - name: Get current date
+      id: date
+      run: echo "date=$(date +'%Y%m%d%H%M')" >> $GITHUB_OUTPUT
+      
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v1.0-${{ steps.date.outputs.date }}
+        name: v1.0-${{ steps.date.outputs.date }}
+        files: app-debug.apk
+        body: |
+          ## Maintenance Recorder
+          
+          Android app for paper mill maintenance records
+          
+          ### Features
+          - Text input
+          - Voice input
+          - Photo upload
+          - Image selection
+          - Search and filter
+          
+          ### Installation
+          Download app-debug.apk and install on Android device.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

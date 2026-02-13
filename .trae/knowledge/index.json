@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "created_at": "2026-02-13",
+  "project_path": "e:\\traework\\纸厂维修说明与备忘录",
+  "entries": [
+    {
+      "id": "android-maintenance-app",
+      "title": "Android维修记录应用开发",
+      "created_at": "2026-02-13",
+      "technologies": ["Kotlin", "Jetpack Compose", "Room", "Material 3"],
+      "file_path": ".trae/knowledge/android-maintenance-app/research.md"
+    }
+  ]
+}
