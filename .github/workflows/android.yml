@@ -19,25 +19,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: gradle
 
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew || true
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v3
       with:
+        arguments: assembleDebug --stacktrace
         gradle-version: 8.2
-
-    - name: Create local.properties
-      run: echo "sdk.dir=$ANDROID_HOME" > local.properties
-
-    - name: List files
-      run: ls -la && ls -la app/ || true
-
-    - name: Build Debug APK
-      run: |
-        gradle assembleDebug --stacktrace --info
-        ls -la app/build/outputs/apk/debug/ || echo "APK directory not found"
       
     - name: Upload APK
       uses: actions/upload-artifact@v4
